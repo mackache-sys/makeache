@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Makeache — We build things that move people.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #111111;
+      --orange-dim: #333333;
+      --ink: #111111;
+      --muted: #666666;
+      --line: #e0e0e0;
+      --bg: #ffffff;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 5vw;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--orange); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--ink); }
+
+    .nav-cta {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--white) !important;
+      background: var(--orange);
+      padding: 0.5rem 1.25rem;
+      border-radius: 2px;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--orange-dim) !important; color: var(--white) !important; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 5vw 5rem;
+    }
+
+    .hero-inner {
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.75rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 1.125rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--orange-dim); }
+
+    .btn-ghost {
+      display: inline-block;
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-weight: 400;
+      padding: 0.75rem 1.75rem;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .btn-ghost:hover { border-color: var(--ink); }
+
+    /* SECTION SHARED */
+    section { padding: 6rem 5vw; }
+    section + section { border-top: 1px solid var(--line); }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    /* SERVICES */
+    #services .services-intro {
+      max-width: 600px;
+      color: var(--muted);
+      font-weight: 300;
+      font-size: 1.05rem;
+      margin-bottom: 3.5rem;
+      line-height: 1.7;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+
+    .service-card {
+      padding: 2.5rem;
+      border-right: 1px solid var(--line);
+    }
+
+    .service-card:last-child { border-right: none; }
+
+    .service-icon {
+      width: 36px;
+      height: 2px;
+      background: var(--orange);
+      margin-bottom: 1.5rem;
+    }
+
+    .service-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ABOUT */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    #about p {
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .about-stat {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 3rem;
+    }
+
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem;
+      color: var(--orange);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 0.25rem;
+    }
+
+    .about-visual {
+      background: var(--line);
+      aspect-ratio: 4/3;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-visual-inner {
+      font-family: 'DM Serif Display', serif;
+      font-size: 5rem;
+      font-style: italic;
+      color: var(--orange);
+      opacity: 0.25;
+      user-select: none;
+    }
+
+    /* PORTFOLIO */
+    #portfolio .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .portfolio-item {
+      background: var(--line);
+      aspect-ratio: 16/10;
+      border-radius: 2px;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .portfolio-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .portfolio-item:hover::before { opacity: 1; }
+
+    .portfolio-label {
+      position: relative;
+      z-index: 1;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--white);
+      background: var(--orange);
+      padding: 0.3rem 0.6rem;
+      border-radius: 1px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .portfolio-item:hover .portfolio-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* CONTACT */
+    #contact .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    #contact .lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .contact-info a {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--orange);
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-info a:hover { text-decoration: underline; }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--orange); }
+
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+
+    .contact-form button {
+      align-self: flex-start;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.75rem 1.75rem;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .contact-form button:hover { background: var(--orange-dim); }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 5vw;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    footer .footer-logo span { color: var(--orange); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+
+      #about .about-grid,
+      #contact .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .about-visual { display: none; }
+
+      .service-card { border-right: none; border-bottom: 1px solid var(--line); }
+      .service-card:last-child { border-bottom: none; }
+
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">Make<span>ache</span></a>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+
+      <li><a href="mailto:makeachestudio@gmail.com" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Makeache Studio — Patan, Nepal</p>
+      <h1>We build things<br>that <em>move</em> people.</h1>
+      <p class="hero-sub">A creative studio at the intersection of advertising, film, and technology. We make ideas tangible.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Start a project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <p class="section-label">What we do</p>
+    <h2>Three disciplines,<br>one studio.</h2>
+    <p class="services-intro">We work across advertising, film and video production, and software development — sometimes all three on the same project.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"></div>
+        <h3>Advertising</h3>
+        <p>Brand strategy, campaign development, and creative direction that cuts through and sticks.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"></div>
+        <h3>Film & Video</h3>
+        <p>Production, post-production, and distribution — from concept to final cut.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"></div>
+        <h3>Technology</h3>
+        <p>Software and digital products built for real people, with real attention to craft.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div>
+        <p class="section-label">About</p>
+        <h2>The ache to make something.</h2>
+        <p>Makeache is the feeling you get when an idea won't leave you alone. We built a studio around that instinct.</p>
+        <p>Based in Patan, we're just getting started — taking on projects that demand both creative and technical precision.</p>
+      </div>
+      <div class="about-visual">
+        <span class="about-visual-inner">M</span>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-grid">
+      <div>
+        <p class="section-label">Contact</p>
+        <h2>Let's build something.</h2>
+        <p class="lead">We're open for work. If you have something in mind, reach out.</p>
+        <div class="contact-info">
+          <a href="mailto:makeachestudio@gmail.com">makeachestudio@gmail.com</a>
+          <a href="#">Patan, Bagmati Province, Nepal</a>
+        </div>
+      </div>
+      <div>
+        <a href="mailto:makeachestudio@gmail.com" style="font-size:1.05rem;color:var(--orange);text-decoration:none;">makeachestudio@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a class="footer-logo" href="#">Make<span>ache</span></a>
+    <p>© 2025 Makeache Studio Pvt. Ltd. — Patan, Nepal</p>
+  </footer>
+
+</body>
+</html>
